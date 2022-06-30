@@ -2,7 +2,7 @@ import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { NewsResponse, Article } from '../interfaces/index';
+import { NewsResponse, Article } from '../interfaces';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -25,6 +25,16 @@ export class NewsService {
     }).pipe(
       // map( resp => resp.articles ) // lo dejo para que se entienda lo de abajo
       map( ({articles}) => articles ) // es lo mismo que la linea de arriba
+    )
+  }
+
+  getTopHeadLinesByCategory(category: string):Observable<Article[]> {
+    return this.http.get<NewsResponse>(`https://newsapi.org/v2/top-headlines?country=us&category=${category}`, {
+      params: {
+        apiKey: apiKey
+      }
+    }).pipe(
+      map( ({articles}) => articles )
     )
   }
 
