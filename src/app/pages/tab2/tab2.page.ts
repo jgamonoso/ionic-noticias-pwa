@@ -31,7 +31,7 @@ export class Tab2Page implements OnInit {
   }
 
   segmentChanged(event: any) {
-    console.log('event', event.detail.value);
+    // console.log('event', event.detail.value);
     this.selectedCategory = event.detail.value;
     this.loadByCategory();
   }
@@ -39,7 +39,7 @@ export class Tab2Page implements OnInit {
   loadByCategory() {
     this.newsService.getTopHeadLinesByCategory(this.selectedCategory)
       .subscribe( articles => {
-        console.log( articles );
+        // console.log( articles );
         this.articles = [ ...articles ];
       })
   }

@@ -21,3 +21,10 @@ export interface Source {
   id:   null | string;
   name: string;
 }
+
+export interface ArticlesByCategoryAndPage {
+  [key: string] : { // Para crearme que este objeto puede tener X cantidad de propiedades y estas propiedades son dinamicas
+    page: number,
+    articles: Article[]
+  }
+}
