@@ -30,9 +30,9 @@ export class Tab2Page implements OnInit {
     this.loadByCategory();
   }
 
-  segmentChanged(event: any) {
+  segmentChanged(event: Event) {
     // console.log('event', event.detail.value);
-    this.selectedCategory = event.detail.value;
+    this.selectedCategory = (event as CustomEvent).detail.value;
     this.loadByCategory();
   }
 
@@ -41,6 +41,25 @@ export class Tab2Page implements OnInit {
       .subscribe( articles => {
         // console.log( articles );
         this.articles = [ ...articles ];
+      })
+  }
+
+  loadData(event: any){
+    console.log('event', event);
+    this.newsService.getTopHeadLinesByCategory(this.selectedCategory, true)
+      .subscribe( articles => {
+
+        if (articles.length === this.articles.length) {
+          event.target.disabled = true;
+          return;
+        }
+
+        this.articles = articles;
+
+        setTimeout(() => {
+          event.target.complete();
+        }, 1000);
+
       })
   }
 

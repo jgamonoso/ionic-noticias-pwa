@@ -51,30 +51,30 @@ export class NewsService {
 
   private getArticlesgetByCategory(category: string):Observable<Article[]> {
 
-    this.articlesByCategoryAndPage[category] = {
-      page: 0,
-      articles: []
+    if (Object.keys(this.articlesByCategoryAndPage).includes(category) ) {
+      // Ya existe, no hacemos nada
+    } else {
+      // No existe
+      this.articlesByCategoryAndPage[category] = {
+        page: 0,
+        articles: []
+      }
     }
-
     const page = this.articlesByCategoryAndPage[category].page + 1;
 
     return this.executeQuery<NewsResponse>(`/top-headlines?category=${ category }&page=${ page }`)
       .pipe(
         // map( resp => resp.articles ) // lo dejo para que se entienda lo de abajo, es lo mismo
         map( ({ articles }) => {
-
           if ( articles.length === 0) {
             return this.articlesByCategoryAndPage[category].articles;
           }
 
           this.articlesByCategoryAndPage[category] = {
             page: page,
-            articles: [ ...this.articlesByCategoryAndPage[category].articles ,...articles]
+            articles: [ ...this.articlesByCategoryAndPage[category].articles , ...articles]
           }
-
           return this.articlesByCategoryAndPage[category].articles;
-
-
         })
       );
   }
