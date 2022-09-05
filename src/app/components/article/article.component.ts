@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Article } from '../../interfaces';
-import { Browser } from '@capacitor/browser';
+import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-article',
@@ -12,14 +13,23 @@ export class ArticleComponent {
   @Input() article: Article;
   @Input() index: number;
 
-  constructor() { }
+  constructor(
+    private iab: InAppBrowser,
+    private platform: Platform
+  ) { }
 
   onClick(){
 
   }
 
   openArticle(){
-    Browser.open({ url: this.article.url });
+
+    if (this.platform.is('ios') || this.platform.is('android')) {
+      const browser = this.iab.create(this.article.url)
+      browser.show();
+      return;
+    }
+    window.open(this.article.url, '_blank')
   }
 
 }
