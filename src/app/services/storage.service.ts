@@ -45,7 +45,11 @@ export class StorageService {
       const articles = await this._storage.get('articles');
       this._localArticles = articles || [];
     } catch (error) {
-      
+
     }
+  }
+
+  articleInFavorites (article: Article){
+    return !!this._localArticles.find( localArticle => localArticle.title === article.title );
   }
 }

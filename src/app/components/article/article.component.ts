@@ -38,10 +38,12 @@ export class ArticleComponent {
 
   async onOpenMenu(){
 
+    const articleInFavorite = this.storageService.articleInFavorites(this.article);
+
     const normalBtns: ActionSheetButton[] = [
       {
-        text: 'Favorito',
-        icon: 'heart-outline',
+        text: articleInFavorite? 'Borrar favorito' : 'Favorito',
+        icon: articleInFavorite? 'heart' : 'heart-outline',
         handler: () => this.onToggleFavorite()
       },
       {
