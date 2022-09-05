@@ -1,7 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { ActionSheetButton, ActionSheetController, Platform } from '@ionic/angular';
+
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
+
+import { StorageService } from 'src/app/services/storage.service';
 
 import { Article } from '../../interfaces';
 
@@ -19,7 +22,8 @@ export class ArticleComponent {
     private iab: InAppBrowser,
     private platform: Platform,
     private actionSheetCtrl: ActionSheetController,
-    private socialSharing: SocialSharing
+    private socialSharing: SocialSharing,
+    private storageService: StorageService
   ) { }
 
   openArticle(){
@@ -76,26 +80,10 @@ export class ArticleComponent {
       null,
       url
     );
-
-
-
-    // // Check if sharing via email is supported
-    // this.socialSharing.canShareViaEmail().then(() => {
-    //   // Sharing via email is possible
-    // }).catch(() => {
-    //   // Sharing via email is not possible
-    // });
-
-    // // Share via email
-    // this.socialSharing.shareViaEmail('Body', 'Subject', ['recipient@example.org']).then(() => {
-    //   // Success!
-    // }).catch(() => {
-    //   // Error!
-    // });
-
-
   }
   onToggleFavorite(){
-    console.log('toogle favorite')
+    console.log('toogle favorite');
+    this.storageService.saveRemoveArticle(this.article);
   }
+
 }
