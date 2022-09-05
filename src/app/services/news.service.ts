@@ -5,6 +5,9 @@ import { HttpClient } from '@angular/common/http';
 import { NewsResponse, Article, ArticlesByCategoryAndPage } from '../interfaces';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { storedArticlesByCategory } from '../data/mock-news';
+
+storedArticlesByCategory
 
 const apiKey = environment.apiKey;
 const apiUrl = environment.apiUrl;
@@ -14,7 +17,7 @@ const apiUrl = environment.apiUrl;
 })
 export class NewsService {
 
-  private articlesByCategoryAndPage: ArticlesByCategoryAndPage = {}
+  private articlesByCategoryAndPage: ArticlesByCategoryAndPage = storedArticlesByCategory;
 
   constructor(
     private http: HttpClient
@@ -35,6 +38,8 @@ export class NewsService {
   }
 
   getTopHeadLinesByCategory(category: string, loadMore: boolean = false):Observable<Article[]>{
+
+    return of(this.articlesByCategoryAndPage[category].articles);
 
     if (loadMore) {
       return this.getArticlesgetByCategory(category);
