@@ -59,8 +59,16 @@ export class ArticleComponent {
       handler: () => this.onShareArticle()
     };
 
+    const navigatorShareBtn: ActionSheetButton = {
+      text: 'Compartir',
+      icon: 'share-outline',
+      handler: () => this.onNavigatorShareArticle()
+    };
+
     if (this.platform.is('capacitor')) {
       normalBtns.unshift(shareBtn);
+    } else {
+      normalBtns.unshift(navigatorShareBtn);
     }
 
     const actionSheet = await this.actionSheetCtrl.create({
@@ -83,6 +91,21 @@ export class ArticleComponent {
       url
     );
   }
+
+  onNavigatorShareArticle(){
+    if (navigator.share) {
+      navigator.share({
+        title: this.article.title,
+        text: this.article.description,
+        url: this.article.url,
+      })
+        .then(() => console.log('Successful share'))
+        .catch((error) => console.log('Error sharing', error));
+    } else {
+      console.log('No se pudo compartir porque no se soporta')
+    }
+  }
+
   onToggleFavorite(){
     console.log('toogle favorite');
     this.storageService.saveRemoveArticle(this.article);
