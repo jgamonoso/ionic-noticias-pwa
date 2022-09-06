@@ -20,3 +20,21 @@ ionic capacitor add android
 
 # live reload capacitor
 ionic capacitor run android --livereload --external
+
+# ---------- ---------- ---------- ---------- ---------- #
+# Despues de hacer npm i
+# generación de la carpeta www
+ionic build --prod
+
+# Instalar herramients de firebase
+npm install -g firebase-tools
+
+# Firebase Login
+firebase login
+
+# Firebase Init
+firebase init
+
+# Firebase deploy
+firebase deploy
+# (Si se cambia algo --> ionic build --prod y luego firebase deploy)
